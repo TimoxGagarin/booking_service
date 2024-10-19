@@ -55,7 +55,7 @@ def upgrade() -> None:
             "total_cost",
             sa.Integer(),
             sa.Computed(
-                "(date_from - date_to) * price",
+                "(date_to - date_from) * price",
             ),
             nullable=True,
         ),
@@ -63,7 +63,7 @@ def upgrade() -> None:
             "total_days",
             sa.Integer(),
             sa.Computed(
-                "date_from - date_to",
+                "date_to - date_from",
             ),
             nullable=True,
         ),

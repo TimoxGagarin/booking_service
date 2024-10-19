@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Computed, Date, ForeignKey, Integer
 
-from src.database import Base
+from database import Base
 
 
 class Bookings(Base):
@@ -12,5 +12,5 @@ class Bookings(Base):
     date_from = Column(Date, nullable=False)
     date_to = Column(Date, nullable=False)
     price = Column(Integer, nullable=False)
-    total_cost = Column(Integer, Computed("(date_from - date_to) * price"))
-    total_days = Column(Integer, Computed("date_from - date_to"))
+    total_cost = Column(Integer, Computed("(date_to - date_from) * price"))
+    total_days = Column(Integer, Computed("date_to - date_from"))

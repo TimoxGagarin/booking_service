@@ -2,10 +2,12 @@ from datetime import date
 from typing import Annotated
 
 import uvicorn
-from fastapi import Depends, FastAPI, Query
-from pydantic import BaseModel
+from fastapi import FastAPI, Query
+
+from bookings.router import router as router_bookings
 
 app = FastAPI(docs_url="/")
+app.include_router(router_bookings)
 
 
 class HotelSearchArgs:
@@ -22,37 +24,6 @@ class HotelSearchArgs:
         self.date_to = date_to
         self.stars = stars
         self.has_spa = has_spa
-
-
-class SHotel(BaseModel):
-    address: str
-    name: str
-    stars: int
-    has_spa: bool
-
-
-@app.get("/hotels")
-def get_hotels(search_args: HotelSearchArgs = Depends()) -> list[SHotel]:
-    hotels = [
-        {
-            "address": "ул. Гагарина, 1, Алтай",
-            "name": "Super Hotel",
-            "stars": 5,
-            "has_spa": False,
-        }
-    ]
-    return hotels
-
-
-class SBooking(BaseModel):
-    room_id: int
-    date_from: date
-    date_to: date
-
-
-@app.post("/bookings")
-def add_booking(booking: SBooking):
-    pass
 
 
 if __name__ == "__main__":
