@@ -8,3 +8,6 @@ asyncpg
 alembic
 passlib
 python-jose
+jinja2
+python-multipart
+fastapi-cache2[redis]

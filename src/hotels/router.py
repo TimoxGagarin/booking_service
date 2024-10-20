@@ -1,6 +1,6 @@
-from datetime import date
+from datetime import date, datetime, timezone
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
 from exceptions import HotelIsNotPresentException
 from hotels.dao import HotelsDAO
@@ -10,9 +10,13 @@ router = APIRouter(prefix="/hotels", tags=["Hotels"])
 router.include_router(router_rooms)
 
 
-@router.get("/{hotel_location}")
-async def get_hotels(hotel_location: str, date_from: date, date_to: date):
-    hotels = await HotelsDAO.find_all(hotel_location, date_from, date_to)
+@router.get("/")
+async def get_hotels(
+    location: str,
+    date_from: date = Query(datetime.now(timezone.utc).date()),
+    date_to: date = Query(datetime.now(timezone.utc).date()),
+):
+    hotels = await HotelsDAO.find_all(location, date_from, date_to)
     if not hotels:
         raise HotelIsNotPresentException
     return hotels
