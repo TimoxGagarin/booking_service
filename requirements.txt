@@ -1,7 +1,10 @@
 fastapi
 uvicorn
 pydantic
+pydantic[email]
 pydantic_settings
 sqlalchemy
 asyncpg
 alembic
+passlib
+python-jose
