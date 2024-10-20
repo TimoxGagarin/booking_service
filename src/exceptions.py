@@ -25,3 +25,11 @@ UserIsNotPresentException = HTTPException(status_code=status.HTTP_401_UNAUTHORIZ
 RoomCannotBeBookedException = HTTPException(
     status_code=status.HTTP_409_CONFLICT, detail="No rooms left."
 )
+
+HotelIsNotPresentException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Hotel isn't present."
+)
+
+NoRoomsInHotelException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="No rooms in hotel."
+)

@@ -5,11 +5,35 @@ from sqlalchemy import and_, func, insert, or_, select
 from bookings.models import Bookings
 from dao.base import BaseDAO
 from database import async_session_maker
-from rooms.models import Rooms
+from hotels.rooms.models import Rooms
 
 
 class BookingDAO(BaseDAO):
     model = Bookings
+
+    @classmethod
+    async def find_all(cls, user_id):
+        async with async_session_maker() as session:
+            query = (
+                select(
+                    Bookings.id,
+                    Bookings.room_id,
+                    Bookings.user_id,
+                    Bookings.date_from,
+                    Bookings.date_to,
+                    Bookings.price,
+                    Bookings.total_cost,
+                    Bookings.total_days,
+                    Rooms.name,
+                    Rooms.description,
+                    Rooms.image_id,
+                    Rooms.services,
+                )
+                .join(Rooms, Bookings.room_id == Rooms.id, isouter=True)
+                .where(Bookings.user_id == user_id)
+            )
+            result = await session.execute(query)
+            return result.mappings().all()
 
     @classmethod
     async def add(cls, user_id: int, room_id: int, date_from: date, date_to: date):

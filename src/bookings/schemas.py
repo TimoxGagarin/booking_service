@@ -13,4 +13,10 @@ class SBooking(BaseModel):
     total_cost: int
     total_days: int
 
+    # room
+    image_id: int
+    name: str
+    description: str
+    services: list[str]
+
     model_config = ConfigDict(from_attributes=True)

@@ -5,12 +5,14 @@ import uvicorn
 from fastapi import FastAPI, Query
 
 from bookings.router import router as router_bookings
+from hotels.router import router as router_hotels
 from users.router import router as router_users
 
 app = FastAPI(docs_url="/")
 
 app.include_router(router_users)
 app.include_router(router_bookings)
+app.include_router(router_hotels)
 
 
 class HotelSearchArgs:
