@@ -1,6 +1,7 @@
 from datetime import date, datetime, timezone
 
 from fastapi import APIRouter, Query
+from fastapi_cache.decorator import cache
 
 from exceptions import HotelIsNotPresentException
 from hotels.dao import HotelsDAO
@@ -11,6 +12,7 @@ router.include_router(router_rooms)
 
 
 @router.get("/")
+@cache(expire=20)
 async def get_hotels(
     location: str,
     date_from: date = Query(datetime.now(timezone.utc).date()),

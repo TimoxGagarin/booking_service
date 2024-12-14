@@ -11,3 +11,6 @@ python-jose
 jinja2
 python-multipart
 fastapi-cache2[redis]
+celery
+flower
+pillow
