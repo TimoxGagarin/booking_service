@@ -1,20 +1,23 @@
 from contextlib import asynccontextmanager
-from datetime import date
-from typing import Annotated
 
 import uvicorn
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
+from sqladmin import Admin
 
+from admin.auth import authentication_backend
+from admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UserAdmin
 from bookings.router import router as router_bookings
 from config import settings
+from database import engine
 from hotels.router import router as router_hotels
 from images.router import router as router_images
 from pages.router import router as router_pages
+from users.models import Users
 from users.router import router as router_users
 
 
@@ -52,22 +55,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+admin = Admin(app, engine, authentication_backend=authentication_backend)
 
-class HotelSearchArgs:
-    def __init__(
-        self,
-        location: str,
-        date_from: date,
-        date_to: date,
-        stars: Annotated[int | None, Query(ge=1, le=5)] = None,
-        has_spa: bool | None = None,
-    ):
-        self.location = location
-        self.date_from = date_from
-        self.date_to = date_to
-        self.stars = stars
-        self.has_spa = has_spa
 
+admin.add_view(UserAdmin)
+admin.add_view(BookingsAdmin)
+admin.add_view(RoomsAdmin)
+admin.add_view(HotelsAdmin)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
