@@ -28,6 +28,6 @@ def create_access_token(data: dict) -> str:
 
 async def autheticate_user(email: EmailStr, password: str):
     user = await UsersDAO.find_one_or_none(email=email)
-    if not user or not verify_password(password, user.password):
+    if not user or user and not verify_password(password, user.hashed_password):
         return None
     return user

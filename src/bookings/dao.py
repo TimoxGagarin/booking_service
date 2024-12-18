@@ -85,7 +85,7 @@ class BookingDAO(BaseDAO):
                         booked_rooms, booked_rooms.c.room_id == Rooms.id, isouter=True
                     )
                 )
-                .where(Rooms.id == 1)
+                .where(Rooms.id == room_id)
                 .group_by(Rooms.quantity, booked_rooms.c.room_id)
             )
 

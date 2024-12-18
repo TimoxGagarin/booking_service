@@ -1,13 +1,13 @@
 from logging.config import fileConfig
 
 from alembic import context
+from rooms.models import Rooms
 from sqlalchemy import engine_from_config, pool
 
 from bookings.models import Bookings
 from config import settings
 from database import Base
 from hotels.models import Hotels
-from rooms.models import Rooms
 from users.models import Users
 
 # this is the Alembic Config object, which provides

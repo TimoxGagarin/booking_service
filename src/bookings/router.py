@@ -1,7 +1,6 @@
 from datetime import date
 
 from fastapi import APIRouter, Depends, status
-from pydantic import parse_obj_as
 
 from bookings.dao import BookingDAO
 from bookings.schemas import SBooking
@@ -13,12 +12,12 @@ from users.models import Users
 router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
 
-@router.get("/")
+@router.get("")
 async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking]:
     return await BookingDAO.find_all(user_id=user.id)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("", status_code=status.HTTP_201_CREATED)
 async def add_booking(
     room_id: int,
     date_from: date,

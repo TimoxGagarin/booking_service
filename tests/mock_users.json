@@ -1,0 +1,10 @@
+[
+  {
+    "email": "fedor@moloko.ru",
+    "hashed_password": "$2b$12$wIByF4TsnCpoYjC/bZTUC.2tD1eXRwaDF4aKLfjjw.Ma9peW638YO"
+  },
+  {
+    "email": "sharik@moloko.ru",
+    "hashed_password": "$2b$12$AUl8fhPsQsC8GB1Mnx1H0OKFku0YO.BXjhB.YM6F1kDHGsy836Sp6"
+  }
+]
