@@ -18,9 +18,14 @@ from httpx import AsyncClient
     ],
 )
 async def test_add_and_get_booking(
-    authenticated_ac: AsyncClient, room_id, date_from, date_to, rooms_left, status_code
+    authenticated_client: AsyncClient,
+    room_id,
+    date_from,
+    date_to,
+    rooms_left,
+    status_code,
 ):
-    response = await authenticated_ac.post(
+    response = authenticated_client.post(
         "/bookings",
         params={
             "room_id": room_id,
@@ -30,5 +35,28 @@ async def test_add_and_get_booking(
     )
     assert response.status_code == status_code
 
-    response = await authenticated_ac.get("/bookings")
+    response = authenticated_client.get("/bookings")
     assert len(response.json()) == rooms_left
+
+
+@pytest.mark.parametrize(
+    "id,count,status_code",
+    [
+        (4, 10, 204),
+        (5, 9, 204),
+    ],
+)
+async def test_get_and_delete_booking(
+    authenticated_client: AsyncClient,
+    id,
+    count,
+    status_code,
+):
+    response = authenticated_client.get("/bookings")
+    assert len(response.json()) == count
+
+    response = authenticated_client.delete(f"/bookings/{id}")
+    assert response.status_code == status_code
+
+    response = authenticated_client.get("/bookings")
+    assert len(response.json()) == count - 1

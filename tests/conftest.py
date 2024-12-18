@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 
 import pytest
+from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import insert
 
@@ -58,23 +59,19 @@ def event_loop(request):
 
 
 @pytest.fixture(scope="function")
-async def ac():
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
-    ) as ac:
-        yield ac
+def client():
+    with TestClient(app) as client:
+        yield client
 
 
 @pytest.fixture(scope="session")
-async def authenticated_ac():
-    async with AsyncClient(
-        transport=ASGITransport(app=app), base_url="http://test"
-    ) as ac:
-        await ac.post(
+def authenticated_client():
+    with TestClient(app) as client:
+        client.post(
             "/auth/login", json={"email": "fedor@moloko.ru", "password": "kotopes"}
         )
-        assert ac.cookies["booking_access_token"]
-        yield ac
+        assert client.cookies["booking_access_token"]
+        yield client
 
 
 @pytest.fixture(scope="function")

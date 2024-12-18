@@ -33,3 +33,12 @@ HotelIsNotPresentException = HTTPException(
 NoRoomsInHotelException = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND, detail="No rooms in hotel."
 )
+
+TooLongDelta = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="Date to greater than date from about 30 days.",
+)
+DateFromGreaterThanDateTo = HTTPException(
+    status_code=status.HTTP_400_BAD_REQUEST,
+    detail="Date from cannot be greater than date to.",
+)

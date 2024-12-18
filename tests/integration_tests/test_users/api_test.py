@@ -10,8 +10,8 @@ import pytest
         ("abcde", "12345", 422),
     ],
 )
-async def test_register_user(ac, email, password, status_code):
-    response = await ac.post(
+async def test_register_user(client, email, password, status_code):
+    response = client.post(
         "/auth/register",
         json={
             "email": email,
@@ -29,8 +29,8 @@ async def test_register_user(ac, email, password, status_code):
         ("wrong@person.com", "1234", 401),
     ],
 )
-async def test_login_user(ac, email, password, status_code):
-    response = await ac.post(
+async def test_login_user(client, email, password, status_code):
+    response = client.post(
         "/auth/login",
         json={
             "email": email,

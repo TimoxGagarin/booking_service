@@ -17,3 +17,13 @@ async def test_add_and_get_booking():
     new_booking = await BookingDAO.find_by_id(new_booking.id)
 
     assert new_booking is not None
+
+
+async def test_delete_and_get_booking():
+    booking = await BookingDAO.find_by_id(2)
+    assert booking.user_id == 2
+    assert booking.room_id == 2
+
+    booking = await BookingDAO.delete(2)
+    booking = await BookingDAO.find_by_id(2)
+    assert booking is None
