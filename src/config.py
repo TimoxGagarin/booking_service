@@ -5,6 +5,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     MODE: Literal["DEV", "TEST", "PROD"]
+    LOG_LEVEL: str
+
     DB_HOST: str
     DB_PORT: int
     DB_USER: str
@@ -28,20 +30,22 @@ class Settings(BaseSettings):
     JWT_TOKEN: str
     JWT_ALGORYTHM: str
 
+    SENTRY_DSN: str
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @property
     def database_url(self) -> str:
         return (
             f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@"
-            "{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+            + f"{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         )
 
     @property
     def test_database_url(self) -> str:
         return (
             f"postgresql+asyncpg://{self.TEST_DB_USER}:{self.TEST_DB_PASS}@"
-            "{self.TEST_DB_HOST}:{self.TEST_DB_PORT}/{self.TEST_DB_NAME}"
+            + f"{self.TEST_DB_HOST}:{self.TEST_DB_PORT}/{self.TEST_DB_NAME}"
         )
 
 

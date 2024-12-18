@@ -1,7 +1,9 @@
+import time
 from contextlib import asynccontextmanager
 
+import sentry_sdk
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
@@ -16,8 +18,11 @@ from config import settings
 from database import engine
 from hotels.router import router as router_hotels
 from images.router import router as router_images
+from logger import logger
 from pages.router import router as router_pages
 from users.router import router as router_users
+
+sentry_sdk.init(settings.SENTRY_DSN, traces_sample_rate=1.0)
 
 
 @asynccontextmanager
@@ -39,6 +44,17 @@ app.include_router(router_pages)
 app.include_router(router_images)
 
 app.mount("/static", StaticFiles(directory="src/static"), "static")
+
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    logger.info("Request handling time", extra={"process_time": round(process_time, 4)})
+    return response
+
 
 origins = [
     "http://localhost:3000",
