@@ -4,7 +4,6 @@ from datetime import datetime
 
 import pytest
 from fastapi.testclient import TestClient
-from httpx import ASGITransport, AsyncClient
 from sqlalchemy import insert
 
 from bookings.models import Bookings
@@ -68,7 +67,8 @@ def client():
 def authenticated_client():
     with TestClient(app) as client:
         client.post(
-            "/auth/login", json={"email": "fedor@moloko.ru", "password": "kotopes"}
+            "/auth/login",
+            json={"email": "fedor@moloko.ru", "password": "kotopes"},
         )
         assert client.cookies["booking_access_token"]
         yield client

@@ -1,5 +1,4 @@
 import pytest
-from httpx import AsyncClient
 
 
 @pytest.mark.parametrize(
@@ -13,7 +12,12 @@ from httpx import AsyncClient
     ],
 )
 async def test_add_and_get_booking(
-    authenticated_client: AsyncClient, location, date_from, date_to, count, status_code
+    authenticated_client,
+    location,
+    date_from,
+    date_to,
+    count,
+    status_code,
 ):
     response = authenticated_client.get(
         "/hotels",

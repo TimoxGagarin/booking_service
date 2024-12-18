@@ -48,4 +48,7 @@ class RoomsDAO(BaseDAO):
                 (Rooms.price * (date_to - date_from).days).label("total_cost"),
             ).filter_by(hotel_id=hotel_id)
             result = await session.execute(query)
-            return {"rooms_left": rooms_left.scalar(), "rooms": result.mappings().all()}
+            return {
+                "rooms_left": rooms_left.scalar(),
+                "rooms": result.mappings().all(),
+            }

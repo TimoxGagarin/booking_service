@@ -19,4 +19,8 @@ itsdangerous
 pytest
 pytest-asyncio
 httpx
-asgi_lifespan
+black
+isort
+autoflake
+flake8
+pyright

@@ -5,7 +5,8 @@ UserAlreadyExistsException = HTTPException(
 )
 
 IncorrectEmailOrPasswordException = HTTPException(
-    status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password."
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Incorrect email or password.",
 )
 
 TokenExpiredException = HTTPException(
