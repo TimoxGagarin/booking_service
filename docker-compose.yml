@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: bookings_db
+    ports:
+      - "5433:5432"
+    env_file:
+      - .env-non-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - booking_network
+
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: bookings_redis
+    expose:
+      - "6379"
+    networks:
+      - booking_network
+
+  booking_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookings_app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env-non-dev
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: ["/app/docker/app.sh"]
+    networks:
+      - booking_network
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookings_celery
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - redis
+    command: ["/app/docker/celery.sh", "celery"]
+    networks:
+      - booking_network
+    environment:
+      - PYTHONPATH=/app/src
+
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bookings_flower
+    env_file:
+      - .env-non-dev
+    command: ["/app/docker/celery.sh", "flower"]
+    depends_on:
+      - celery
+    networks:
+      - booking_network
+    environment:
+      - PYTHONPATH=/app/src
+    ports:
+      - "5555:5555"
+
+networks:
+  booking_network:
+    driver: bridge

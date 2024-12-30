@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 
 from pythonjsonlogger import jsonlogger
 
-from config import settings
+from src.config import settings
 
 logger = logging.getLogger()
 

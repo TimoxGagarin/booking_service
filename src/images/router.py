@@ -3,7 +3,7 @@ import shutil
 from fastapi import APIRouter, UploadFile
 from fastapi_versioning import version
 
-from tasks.tasks import process_pic
+from src.tasks.tasks import process_pic
 
 router = APIRouter(prefix="/images", tags=["Images uploading"])
 

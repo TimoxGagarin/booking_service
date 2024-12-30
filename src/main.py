@@ -2,26 +2,25 @@ import time
 from contextlib import asynccontextmanager
 
 import sentry_sdk
-import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_versioning import VersionedFastAPI, version
+from fastapi_versioning import VersionedFastAPI
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
-from admin.auth import authentication_backend
-from admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UserAdmin
-from bookings.router import router as router_bookings
-from config import settings
-from database import engine
-from hotels.router import router as router_hotels
-from images.router import router as router_images
-from logger import logger
-from pages.router import router as router_pages
-from users.router import router as router_users
+from src.admin.auth import authentication_backend
+from src.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UserAdmin
+from src.bookings.router import router as router_bookings
+from src.config import settings
+from src.database import engine
+from src.hotels.router import router as router_hotels
+from src.images.router import router as router_images
+from src.logger import logger
+from src.pages.router import router as router_pages
+from src.users.router import router as router_users
 
 sentry_sdk.init(settings.SENTRY_DSN, traces_sample_rate=1.0)
 
@@ -84,6 +83,3 @@ admin.add_view(UserAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(RoomsAdmin)
 admin.add_view(HotelsAdmin)
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

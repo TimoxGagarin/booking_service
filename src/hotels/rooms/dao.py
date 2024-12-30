@@ -2,10 +2,10 @@ from datetime import date
 
 from sqlalchemy import and_, func, or_, select
 
-from bookings.models import Bookings
-from dao.base import BaseDAO
-from database import async_session_maker
-from hotels.rooms.models import Rooms
+from src.bookings.models import Bookings
+from src.dao.base import BaseDAO
+from src.database import async_session_maker
+from src.hotels.rooms.models import Rooms
 
 
 class RoomsDAO(BaseDAO):

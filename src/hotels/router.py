@@ -4,13 +4,13 @@ from fastapi import APIRouter, Query
 from fastapi_cache.decorator import cache
 from fastapi_versioning import version
 
-from exceptions import (
+from src.exceptions import (
     DateFromGreaterThanDateTo,
     HotelIsNotPresentException,
     TooLongDelta,
 )
-from hotels.dao import HotelsDAO
-from hotels.rooms.router import router as router_rooms
+from src.hotels.dao import HotelsDAO
+from src.hotels.rooms.router import router as router_rooms
 
 router = APIRouter(prefix="/hotels", tags=["Hotels"])
 router.include_router(router_rooms)

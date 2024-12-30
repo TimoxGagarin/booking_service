@@ -4,9 +4,9 @@ from pathlib import Path
 from PIL import Image
 from pydantic import EmailStr
 
-from config import settings
-from tasks.celery import celery
-from tasks.email_templates import create_booking_confirmation_template
+from src.config import settings
+from src.tasks.celery import celery
+from src.tasks.email_templates import create_booking_confirmation_template
 
 
 @celery.task

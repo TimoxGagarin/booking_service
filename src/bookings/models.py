@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Computed, Date, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
-from database import Base
+from src.database import Base
 
 
 class Bookings(Base):

@@ -3,12 +3,12 @@ from datetime import date
 from fastapi import APIRouter, Depends, status
 from fastapi_versioning import version
 
-from bookings.dao import BookingDAO
-from bookings.schemas import SBooking
-from exceptions import RoomCannotBeBookedException
-from tasks.tasks import send_booking_confirmation_email
-from users.dependencies import get_current_user
-from users.models import Users
+from src.bookings.dao import BookingDAO
+from src.bookings.schemas import SBooking
+from src.exceptions import RoomCannotBeBookedException
+from src.tasks.tasks import send_booking_confirmation_email
+from src.users.dependencies import get_current_user
+from src.users.models import Users
 
 router = APIRouter(prefix="/bookings", tags=["Bookings"])
 

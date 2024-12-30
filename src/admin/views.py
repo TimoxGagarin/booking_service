@@ -1,9 +1,9 @@
 from sqladmin import ModelView
 
-from bookings.models import Bookings
-from hotels.models import Hotels
-from hotels.rooms.models import Rooms
-from users.models import Users
+from src.bookings.models import Bookings
+from src.hotels.models import Hotels
+from src.hotels.rooms.models import Rooms
+from src.users.models import Users
 
 
 class UserAdmin(ModelView, model=Users):

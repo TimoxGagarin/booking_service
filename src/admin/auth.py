@@ -2,8 +2,8 @@ from fastapi import Request
 from fastapi.responses import RedirectResponse
 from sqladmin.authentication import AuthenticationBackend
 
-from users.auth import autheticate_user, create_access_token
-from users.dependencies import get_current_user
+from src.users.auth import autheticate_user, create_access_token
+from src.users.dependencies import get_current_user
 
 
 class AdminAuth(AuthenticationBackend):

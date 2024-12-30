@@ -3,9 +3,9 @@ from datetime import date
 from fastapi import APIRouter
 from fastapi_versioning import version
 
-from exceptions import NoRoomsInHotelException
-from hotels.rooms.dao import RoomsDAO
-from hotels.rooms.schemas import SAllRooms
+from src.exceptions import NoRoomsInHotelException
+from src.hotels.rooms.dao import RoomsDAO
+from src.hotels.rooms.schemas import SAllRooms
 
 router = APIRouter(tags=["Rooms"])
 
