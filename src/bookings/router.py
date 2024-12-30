@@ -1,6 +1,7 @@
 from datetime import date
 
 from fastapi import APIRouter, Depends, status
+from fastapi_versioning import version
 
 from bookings.dao import BookingDAO
 from bookings.schemas import SBooking
@@ -13,6 +14,7 @@ router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
 
 @router.get("")
+@version(1, 1)
 async def get_bookings(
     user: Users = Depends(get_current_user),
 ) -> list[SBooking]:
@@ -20,6 +22,7 @@ async def get_bookings(
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
+@version(1, 0)
 async def add_booking(
     room_id: int,
     date_from: date,
@@ -37,6 +40,7 @@ async def add_booking(
 
 
 @router.delete("/{booking_id}", status_code=status.HTTP_204_NO_CONTENT)
+@version(1, 0)
 async def delete_booking(
     booking_id: int,
     user: Users = Depends(get_current_user),

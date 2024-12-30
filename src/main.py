@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_versioning import VersionedFastAPI, version
 from redis import asyncio as aioredis
 from sqladmin import Admin
 
@@ -42,6 +43,14 @@ app.include_router(router_bookings)
 app.include_router(router_hotels)
 app.include_router(router_pages)
 app.include_router(router_images)
+
+app = VersionedFastAPI(
+    app,
+    version_format="{major}.{minor}",
+    prefix_format="/v{major}.{minor}",
+    default_version=(1, 0),
+    enable_latest=False,
+)
 
 app.mount("/static", StaticFiles(directory="src/static"), "static")
 

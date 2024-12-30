@@ -2,6 +2,7 @@ from datetime import date, datetime, timezone
 
 from fastapi import APIRouter, Query
 from fastapi_cache.decorator import cache
+from fastapi_versioning import version
 
 from exceptions import (
     DateFromGreaterThanDateTo,
@@ -16,6 +17,7 @@ router.include_router(router_rooms)
 
 
 @router.get("")
+@version(1, 0)
 @cache(expire=20)
 async def get_hotels(
     location: str,
@@ -33,6 +35,7 @@ async def get_hotels(
 
 
 @router.get("/id/{hotel_id}")
+@version(1, 0)
 async def get_hotel(hotel_id: int):
     hotel = await HotelsDAO.find_by_id(hotel_id)
     if not hotel:
